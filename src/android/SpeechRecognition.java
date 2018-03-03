@@ -401,6 +401,13 @@ public class SpeechRecognition extends CordovaPlugin {
         
     }
 
+    private String CreateRandomAudioFileName(int string) {
+        StringBuilder stringBuilder = new StringBuilder(string);
+        for (int i = 0; i < string; i++) {
+            stringBuilder.append(this.RandomAudioFileName.charAt(this.random.nextInt(this.RandomAudioFileName.length())));
+        }
+        return stringBuilder.toString();
+    }
 
     private void copyInputStreamToFile(InputStream in, File file) {
         OutputStream out=null;
