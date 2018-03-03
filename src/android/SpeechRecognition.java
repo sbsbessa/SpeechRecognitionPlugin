@@ -155,8 +155,8 @@ public class SpeechRecognition extends CordovaPlugin {
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
 
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, prompt);
-        recognizerIntent.putExtra("android.speech.extra.GET_AUDIO_FORMAT","audio/AMR");
-        recognizerIntent.putExtra("android.speech.extra.GET_AUDIO",true);
+        intent.putExtra("android.speech.extra.GET_AUDIO_FORMAT","audio/AMR");
+        intent.putExtra("android.speech.extra.GET_AUDIO",true);
 
         Handler loopHandler = new Handler(Looper.getMainLooper());
         loopHandler.post(new Runnable() {
