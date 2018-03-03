@@ -233,6 +233,8 @@ public class SpeechRecognition extends CordovaPlugin {
                             e.printStackTrace();
                         }
                         Log.d(LOG_TAG, "getPath(): " + audioUri.getPath());
+                        Log.d(LOG_TAG, "this: " + this);
+                        Log.d(LOG_TAG, "this.path: " + this.path);
                         File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + this.path);
                         if(!dir.exists())dir.mkdir();
                         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + this.path + CreateRandomAudioFileName(5) + "v4r.amr");
