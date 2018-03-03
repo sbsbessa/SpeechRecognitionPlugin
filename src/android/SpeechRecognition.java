@@ -56,7 +56,7 @@ public class SpeechRecognition extends CordovaPlugin {
     private String path;
     private String prompt = "Fale agora por favor...";
 
-    
+
     String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
     Random random = new Random();
 
@@ -147,7 +147,7 @@ public class SpeechRecognition extends CordovaPlugin {
             this.path = args.optString(1, "/");
 
 
-            cordova.setActivityResultCallback (this);
+            cordova.getActivity().setActivityResultCallback (this);
 
             this.speechRecognizerCallbackContext = callbackContext;
             this.promptForMic();
@@ -186,8 +186,8 @@ public class SpeechRecognition extends CordovaPlugin {
 
             @Override
             public void run() {
-                recognizer.startListening(recognizerIntent);
-                //cordova.getActivity().startActivityForResult(recognizerIntent, REQ_CODE_SPEECH_OUTPUT);
+                //recognizer.startListening(recognizerIntent);
+                cordova.getActivity().startActivityForResult(recognizerIntent, REQ_CODE_SPEECH_OUTPUT);
             }
 
         });
@@ -210,8 +210,8 @@ public class SpeechRecognition extends CordovaPlugin {
         });
     }
 
-
-    protected void onActivityResulta(int requestCode, int resultCode, Intent data){
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode){
@@ -249,6 +249,7 @@ public class SpeechRecognition extends CordovaPlugin {
             }
         }
     }
+    
 
     /**
      * Initialize the speech recognizer by checking if one exists.
