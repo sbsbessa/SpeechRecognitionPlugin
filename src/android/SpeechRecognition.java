@@ -1,4 +1,4 @@
-copyuinpackage org.apache.cordova.speech;
+package org.apache.cordova.speech;
 
 import java.util.ArrayList;
 
@@ -224,7 +224,7 @@ public class SpeechRecognition extends CordovaPlugin {
                         copyInputStreamToFile(filestream, file);
 
                         Log.d(LOG_TAG, file.getAbsolutePath()+"|||"+file.getAbsoluteFile());
-                        filepath = file.getAbsoluteFile()
+                        filepath = file.getAbsoluteFile();
 
                     }
                     fireRecognitionEvent(transcription, filepath);
