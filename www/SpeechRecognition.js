@@ -11,6 +11,7 @@ var exec = require("cordova/exec");
 var SpeechRecognition = function () {
     this.grammars = null;
     this.lang = "en";
+    this.audioFilePath = "/";
     this.continuous = false;
     this.interimResults = false;
     this.maxAlternatives = 1;

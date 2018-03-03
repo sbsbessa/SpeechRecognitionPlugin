@@ -52,8 +52,8 @@ public class SpeechRecognition extends CordovaPlugin {
     private SpeechRecognizer recognizer;
     private boolean aborted = false;
     private boolean listening = false;
-    private String lang;
-    private String path;
+    private String lang="pt_pt";
+    private String path="/";
     private String prompt = "Fale agora por favor...";
 
 
