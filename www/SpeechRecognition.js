@@ -68,7 +68,7 @@ SpeechRecognition.prototype.start = function() {
         }
     };
 
-    exec(successCallback, errorCallback, "SpeechRecognition", "start", [this.lang, this.path, this.maxAlternatives]);
+    exec(successCallback, errorCallback, "SpeechRecognition", "start", [this.lang, this.audioFilePath, this.maxAlternatives]);
 };
 
 SpeechRecognition.prototype.stop = function() {
