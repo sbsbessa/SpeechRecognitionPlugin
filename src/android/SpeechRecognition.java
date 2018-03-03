@@ -39,9 +39,12 @@ public class SpeechRecognition extends CordovaPlugin {
     private boolean aborted = false;
     private boolean listening = false;
     private String lang;
+    private String path;
+    private String prompt = "Fale agora por favor...";
 
-    private static String [] permissions = { Manifest.permission.RECORD_AUDIO };
+    private static String [] permissions = { Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE };
     private static int RECORD_AUDIO = 0;
+    private static int WRITE_EXTERNAL_STORAGE = 1;
 
     protected void getMicPermission()
     {
@@ -60,6 +63,23 @@ public class SpeechRecognition extends CordovaPlugin {
 
     }
 
+    protected void getWritePermission()
+    {
+        PermissionHelper.requestPermission(this, WRITE_EXTERNAL_STORAGE, permissions[WRITE_EXTERNAL_STORAGE]);
+    }
+
+    private void promptForWrite()
+    {
+        if(PermissionHelper.hasPermission(this, permissions[WRITE_EXTERNAL_STORAGE])) {
+            this.startRecognition();
+        }
+        else
+        {
+            getWritePermission();
+        }
+
+    }
+
     public void onRequestPermissionResult(int requestCode, String[] permissions,
                                           int[] grantResults) throws JSONException
     {
@@ -72,7 +92,10 @@ public class SpeechRecognition extends CordovaPlugin {
                 return;
             }
         }
-        promptForMic();
+        if(requestCode==RECORD_AUDIO)
+            promptForMic();
+        if(requestCode==WRITE_EXTERNAL_STORAGE)
+            promptForWrite();
     }
 
     @Override
@@ -103,6 +126,7 @@ public class SpeechRecognition extends CordovaPlugin {
                 callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, NOT_PRESENT_MESSAGE));
             }
             this.lang = args.optString(0, "en");
+            this.path = args.optString(1, "/");
             this.speechRecognizerCallbackContext = callbackContext;
             this.promptForMic();
         }
@@ -123,11 +147,16 @@ public class SpeechRecognition extends CordovaPlugin {
     private void startRecognition() {
 
         final Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
         intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,"voice.recognition.test");
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE:PREFERENCE,lang);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,lang);
 
         intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS,5);
+
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, prompt);
+        recognizerIntent.putExtra("android.speech.extra.GET_AUDIO_FORMAT","audio/AMR");
+        recognizerIntent.putExtra("android.speech.extra.GET_AUDIO",true);
 
         Handler loopHandler = new Handler(Looper.getMainLooper());
         loopHandler.post(new Runnable() {
@@ -272,6 +301,7 @@ public class SpeechRecognition extends CordovaPlugin {
             Log.d(LOG_TAG, "results");
             String str = new String();
             Log.d(LOG_TAG, "onResults " + results);
+            Log.d(LOG_TAG, "onResults.getData " + results.getData());
             ArrayList<String> transcript = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             float[] confidence = results.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
             if (transcript.size() > 0) {
