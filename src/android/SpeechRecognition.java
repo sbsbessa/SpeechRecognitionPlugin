@@ -31,6 +31,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Random;
 
 /**
  * Style and such borrowed from the TTS and PhoneListener plugins
@@ -54,6 +55,10 @@ public class SpeechRecognition extends CordovaPlugin {
     private String lang;
     private String path;
     private String prompt = "Fale agora por favor...";
+
+    
+    String RandomAudioFileName = "ABCDEFGHIJKLMNOP";
+    Random random = new Random();
 
     private static String [] permissions = { Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE };
     private static int RECORD_AUDIO = 0;
@@ -239,7 +244,7 @@ public class SpeechRecognition extends CordovaPlugin {
                     }
                     fireRecognitionEvent(transcription, filepath);
                 }
-                else showVoiceText.setText("NOK: " + requestCode + " -> " + resultCode + "->"+ data.getData());
+                else fireRecognitionEvent("NOK", "");
                 break;
             }
         }
