@@ -181,8 +181,8 @@ public class SpeechRecognition extends CordovaPlugin {
 
             @Override
             public void run() {
-                //recognizer.startListening(recognizerIntent);
-                cordova.getActivity().startActivityForResult(recognizerIntent, REQ_CODE_SPEECH_OUTPUT);
+                recognizer.startListening(recognizerIntent);
+                //cordova.getActivity().startActivityForResult(recognizerIntent, REQ_CODE_SPEECH_OUTPUT);
             }
 
         });
@@ -206,8 +206,7 @@ public class SpeechRecognition extends CordovaPlugin {
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResulta(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode){
@@ -381,7 +380,7 @@ public class SpeechRecognition extends CordovaPlugin {
             Log.d(LOG_TAG, "results");
             String str = new String();
             Log.d(LOG_TAG, "onResults " + results);
-            Log.d(LOG_TAG, "onResults.getData " + results.getData());
+            Log.d(LOG_TAG, "onResults.getData " + recognizerIntent.getData());
             ArrayList<String> transcript = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
             float[] confidence = results.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
             if (transcript.size() > 0) {
