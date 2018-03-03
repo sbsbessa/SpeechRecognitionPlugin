@@ -147,7 +147,7 @@ public class SpeechRecognition extends CordovaPlugin {
             this.path = args.optString(1, "/");
 
 
-            cordova.getActivity().setActivityResultCallback (this);
+            cordova.setActivityResultCallback (this);
 
             this.speechRecognizerCallbackContext = callbackContext;
             this.promptForMic();
@@ -211,7 +211,7 @@ public class SpeechRecognition extends CordovaPlugin {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode){
