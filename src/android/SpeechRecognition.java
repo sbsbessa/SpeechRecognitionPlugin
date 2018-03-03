@@ -14,6 +14,8 @@ import org.apache.cordova.PluginResult;
 import android.content.pm.PackageManager;
 import android.util.Log;
 import android.content.Intent;
+import android.os.Environment;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -210,7 +212,7 @@ public class SpeechRecognition extends CordovaPlugin {
 
         switch (requestCode){
             case REQ_CODE_SPEECH_OUTPUT: {
-                if (resultCode == RESULT_OK && null != data){
+                if (resultCode == this.cordova.getActivity().RESULT_OK && null != data){
                     // Recognition Successfull
                     ArrayList<String> voiceInText = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     for(int i=0;i<voiceInText.size();i++){
@@ -222,7 +224,7 @@ public class SpeechRecognition extends CordovaPlugin {
                         Uri audioUri = data.getData();
                         InputStream filestream = null;
                         try {
-                            filestream = getContentResolver().openInputStream(audioUri);
+                            filestream = this.cordova.getActivity().getBaseContext().getContentResolver().openInputStream(audioUri);
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
@@ -233,7 +235,7 @@ public class SpeechRecognition extends CordovaPlugin {
                         copyInputStreamToFile(filestream, file);
 
                         Log.d(LOG_TAG, file.getAbsolutePath()+"|||"+file.getAbsoluteFile());
-                        filepath = file.getAbsoluteFile();
+                        filepath = file.getAbsolutePath();
 
                     }
                     fireRecognitionEvent(transcription, filepath);
@@ -384,7 +386,7 @@ public class SpeechRecognition extends CordovaPlugin {
             float[] confidence = results.getFloatArray(SpeechRecognizer.CONFIDENCE_SCORES);
             if (transcript.size() > 0) {
                 Log.d(LOG_TAG, "fire recognition event");
-                fireRecognitionEvent(transcript, confidence);
+                //fireRecognitionEvent(transcript, confidence);
             } else {
                 Log.d(LOG_TAG, "fire no match event");
                 fireEvent("nomatch");
