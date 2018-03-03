@@ -180,7 +180,7 @@ public class SpeechRecognition extends CordovaPlugin {
             @Override
             public void run() {
                 //recognizer.startListening(recognizerIntent);
-                startActivityForResult(recognizerIntent, REQ_CODE_SPEECH_OUTPUT);
+                cordova.getActivity().startActivityForResult(recognizerIntent, REQ_CODE_SPEECH_OUTPUT);
             }
 
         });
