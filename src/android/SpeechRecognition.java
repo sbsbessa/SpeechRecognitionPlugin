@@ -129,8 +129,8 @@ public class SpeechRecognition extends CordovaPlugin {
 
                     @Override
                     public void run() {
-                        recognizer = SpeechRecognizer.createSpeechRecognizer(cordova.getActivity().getBaseContext());
-                        recognizer.setRecognitionListener(new SpeechRecognitionListner());
+                       // recognizer = SpeechRecognizer.createSpeechRecognizer(cordova.getActivity().getBaseContext());
+                       // recognizer.setRecognitionListener(new SpeechRecognitionListner());
                     }
                     
                 });
