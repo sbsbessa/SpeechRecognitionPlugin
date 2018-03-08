@@ -232,7 +232,7 @@ public class SpeechRecognition extends CordovaPlugin {
                         try {
                             filestream = this.cordova.getActivity().getBaseContext().getContentResolver().openInputStream(audioUri);
                         } catch (FileNotFoundException e) {
-                        	 Log.e(LOG_TAG, e);
+                        	 Log.e(LOG_TAG, e.getMessage());
                         }
                         Log.d(LOG_TAG, "args " + this.lang + "; "+this.path);
                         /*
