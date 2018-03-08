@@ -227,21 +227,23 @@ public class SpeechRecognition extends CordovaPlugin {
                     if(data.getData()!=null) {
                         Uri audioUri = data.getData();
                         InputStream filestream = null;
+
+                        Log.d(LOG_TAG, "audioUri: " + audioUri);
                         try {
                             filestream = this.cordova.getActivity().getBaseContext().getContentResolver().openInputStream(audioUri);
                         } catch (FileNotFoundException e) {
-                            e.printStackTrace();
+                        	 Log.e(LOG_TAG, e);
                         }
                         Log.d(LOG_TAG, "args " + this.lang + "; "+this.path);
-                        
+                        /*
                         File dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + this.path);
                         if(!dir.exists())dir.mkdir();
                         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + this.path + CreateRandomAudioFileName(5) + "v4r.amr");
-                        
-                        /*
-                        File outputDir = context.getCacheDir(); // context being the Activity pointer
-                        File file = File.createTempFile(CreateRandomAudioFileName(5), "v4r.amr", outputDir);
                         */
+                        
+                        File outputDir = his.cordova.getActivity().getBaseContext().getCacheDir(); // context being the Activity pointer
+                        File file = File.createTempFile(CreateRandomAudioFileName(5), "v4r.amr", outputDir);
+                        
                         copyInputStreamToFile(filestream, file);
 
                         Log.d(LOG_TAG, file.getAbsolutePath()+"|||"+file.getAbsoluteFile());
