@@ -241,7 +241,7 @@ public class SpeechRecognition extends CordovaPlugin {
                         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + this.path + CreateRandomAudioFileName(5) + "v4r.amr");
                         */
                         
-                        File outputDir = his.cordova.getActivity().getBaseContext().getCacheDir(); // context being the Activity pointer
+                        File outputDir = this.cordova.getActivity().getBaseContext().getCacheDir(); // context being the Activity pointer
                         File file = File.createTempFile(CreateRandomAudioFileName(5), "v4r.amr", outputDir);
                         
                         copyInputStreamToFile(filestream, file);
